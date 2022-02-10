@@ -2,9 +2,10 @@
 
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
-index = {}
+index = {"validate_type": "00_core.ipynb",
+         "validate": "00_core.ipynb"}
 
-modules = []
+modules = ["core.py"]
 
 doc_url = "https://MaxGunton.github.io/mval/"
 

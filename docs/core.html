@@ -6,8 +6,8 @@ title: core
 keywords: fastai
 sidebar: home_sidebar
 
-summary: "This contains the core functionality"
-description: "This contains the core functionality"
+summary: "A small package with this one module, that will save you time writing validation code.  "
+description: "A small package with this one module, that will save you time writing validation code.  "
 nb_path: "nbs/00_core.ipynb"
 ---
 <!--
@@ -29,6 +29,174 @@ nb_path: "nbs/00_core.ipynb"
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>TODO: Write more in here</p>
+<p>Package only has the logic to deal with primative types and List, Tuple, Dict, and Union.<br>
+This</p>
+<hr>
+<p><strong>NOTES:</strong></p>
+<p>This package comes with no warrenty and no garantees, it may or may not</p>
+<hr>
+<p><strong>LIMITATIONS</strong>
+1) 
+1) Only support Tuple definitions of fixed size</p>
+<blockquote><p><code>ex. Tuple[int, float, str] and not Tuple[int, ...]</code></p>
+</blockquote>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Type-Check">Type Check<a class="anchor-link" href="#Type-Check"> </a></h2>
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="validate_type" class="doc_header"><code>validate_type</code><a href="https://github.com/MaxGunton/mval/tree/main/mval/core.py#L15" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>validate_type</code>(<strong><code>p</code></strong>, <strong><code>p_type</code></strong>)</p>
+</blockquote>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="validate" class="doc_header"><code>validate</code><a href="https://github.com/MaxGunton/mval/tree/main/mval/core.py#L64" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>validate</code>(<strong><code>p</code></strong>, <strong><code>p_type</code></strong>, <strong><code>p_name</code></strong>:<code>str</code>, <strong><code>p_restriction</code></strong>:<code>Callable</code>=<em><code>None</code></em>)</p>
+</blockquote>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>List, Union, Tuple, Any</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">d</span> <span class="o">=</span> <span class="n">validate</span><span class="p">([(</span><span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">),(</span><span class="s2">&quot;hey&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)],</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]],</span> <span class="s2">&quot;mylist&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Common-Restrictions">Common Restrictions<a class="anchor-link" href="#Common-Restrictions"> </a></h2>
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># os.path.isfile(p)</span>
+<span class="c1"># os.path.isdir(p)</span>
+<span class="c1"># os.path.</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>is a file
+  -&gt; parent exists
+  -&gt; exists
+  -&gt; doesn't exists
+  -&gt;</p>
+<p>is a directory
+  -&gt; exists
+  -&gt; doesn't exist
+  -&gt; contains a file with specific extension
+  -&gt; parent exists
+  -&gt;</p>
+<p>is a tuple with values</p>
+<p>base values</p>
+<p>value(s) have no restrictions = None
+value(s) fall within a range = '(2,100]'
+value(s) fall within a set = {}</p>
+<p>value(s) are directories (with above options)
+value(s) are files (with above options)</p>
+<p>more complicated restrictions can use a function
+value(s) evaluate function to True</p>
+
+</div>
+</div>
+</div>
 </div>
  
 
