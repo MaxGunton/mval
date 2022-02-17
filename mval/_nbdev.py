@@ -2,8 +2,7 @@
 
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
-index = {"validate_type": "00_core.ipynb",
-         "validate": "00_core.ipynb"}
+index = {"MVal": "00_core.ipynb"}
 
 modules = ["core.py"]
 

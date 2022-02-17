@@ -6,8 +6,8 @@ title: core
 keywords: fastai
 sidebar: home_sidebar
 
-summary: "A small package with this one module, that will save you time writing validation code.  "
-description: "A small package with this one module, that will save you time writing validation code.  "
+summary: "Contains validate_param() and supporting functions.  "
+description: "Contains validate_param() and supporting functions.  "
 nb_path: "nbs/00_core.ipynb"
 ---
 <!--
@@ -31,59 +31,40 @@ nb_path: "nbs/00_core.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>TODO: Write more in here</p>
-<p>Package only has the logic to deal with primative types and List, Tuple, Dict, and Union.<br>
-This</p>
+<p><strong>USAGE</strong></p>
+<p>The MVal.validate_param() method is the public facing method of MVal class used for validating variables.  It validates in the following two ways:</p>
+<blockquote><ol>
+<li>Checking that parameter is the corret type.<ul>
+<li>Supports primative types and objects.</li>
+<li>Supports nested structures (typing module notation used).</li>
+</ul>
+</li>
+</ol>
+<ol>
+<li>Checking that parameter meets any required restrictions.  Which can take any of the following forms<ul>
+<li>No restrictions -&gt; ex. None</li>
+<li>Bounds expression -&gt; ex. "(0,)"  <strong><em>Only supported for <code>&lt;class 'int'&gt;</code> and <code>&lt;class 'float'&gt;</code> types</em></strong></li>
+<li>Set of allowed values -&gt; ex. {1,2,3,4,5}</li>
+<li>Callable function returning True, if meets restrictions, and False otherwise</li>
+</ul>
+</li>
+</ol>
+</blockquote>
+<hr>
+<p><strong>LIMITATIONS</strong></p>
+<ul>
+<li>Only supports the following from typing module:List, Tuple, Dict, and Union- Only supports Tuple definitions of fixed size
+<pre><code>i.e. Tuple[int, float, str] and not Tuple[int, ...]</code></pre>
+</li>
+<li>Currently restrictions are applied to entire value i.e. not nested values</li>
+</ul>
 <hr>
 <p><strong>NOTES:</strong></p>
-<p>This package comes with no warrenty and no garantees, it may or may not</p>
-<hr>
-<p><strong>LIMITATIONS</strong>
-1) 
-1) Only support Tuple definitions of fixed size</p>
-<blockquote><p><code>ex. Tuple[int, float, str] and not Tuple[int, ...]</code></p>
-</blockquote>
+<p>This package comes with no warranty and no garantees.</p>
 
 </div>
 </div>
 </div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-    {% endraw %}
-
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Type-Check">Type Check<a class="anchor-link" href="#Type-Check"> </a></h2>
-</div>
-</div>
-</div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="validate_type" class="doc_header"><code>validate_type</code><a href="https://github.com/MaxGunton/mval/tree/main/mval/core.py#L15" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>validate_type</code>(<strong><code>p</code></strong>, <strong><code>p_type</code></strong>)</p>
-</blockquote>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -102,7 +83,7 @@ This</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="validate" class="doc_header"><code>validate</code><a href="https://github.com/MaxGunton/mval/tree/main/mval/core.py#L64" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>validate</code>(<strong><code>p</code></strong>, <strong><code>p_type</code></strong>, <strong><code>p_name</code></strong>:<code>str</code>, <strong><code>p_restriction</code></strong>:<code>Callable</code>=<em><code>None</code></em>)</p>
+<h2 id="MVal" class="doc_header"><code>class</code> <code>MVal</code><a href="https://github.com/MaxGunton/mval/tree/main/mval/core.py#L13" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>MVal</code>()</p>
 </blockquote>
 
 </div>
@@ -118,25 +99,227 @@ This</p>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-
-</div>
-    {% endraw %}
-
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>List, Union, Tuple, Any</p>
-
-</div>
-</div>
-</div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">d</span> <span class="o">=</span> <span class="n">validate</span><span class="p">([(</span><span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">),(</span><span class="s2">&quot;hey&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)],</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]],</span> <span class="s2">&quot;mylist&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">MVal</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="nf">_check_type</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">p_type</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        subclasses always ok for now.</span>
+
+<span class="sd">        Operates on</span>
+<span class="sd">        -----------</span>
+
+<span class="sd">        Union, List, Tuple, Dict</span>
+
+<span class="sd">        TypeVar is a generic type that doesn&#39;t have .__origin__ so any param who&#39;s type is supposed to be </span>
+<span class="sd">        TypeVar automatically passes.  </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">getmodule</span><span class="p">(</span><span class="n">p_type</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;typing&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">p_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">TypeVar</span><span class="p">):</span>
+
+            <span class="n">parent_type</span> <span class="o">=</span> <span class="n">p_type</span><span class="o">.</span><span class="n">__origin__</span>  
+
+            <span class="k">if</span> <span class="n">parent_type</span> <span class="ow">is</span> <span class="nb">tuple</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">p</span><span class="p">),</span> <span class="n">parent_type</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;expected type </span><span class="si">{}</span><span class="s2">, but received </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p_type</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">p</span><span class="p">)))</span>
+                <span class="n">inner_types</span> <span class="o">=</span> <span class="n">p_type</span><span class="o">.</span><span class="n">__args__</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">inner_types</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">((</span><span class="s2">&quot;tuple expected </span><span class="si">{}</span><span class="s2"> elements, but &quot;</span> <span class="o">+</span>
+                                      <span class="s2">&quot;received </span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">inner_types</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">)))</span>
+                <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">child</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
+                    <span class="n">MVal</span><span class="o">.</span><span class="n">_check_type</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">inner_types</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+
+            <span class="k">if</span> <span class="n">parent_type</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">p</span><span class="p">),</span> <span class="n">parent_type</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;expected type </span><span class="si">{}</span><span class="s2">, but received </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p_type</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">p</span><span class="p">)))</span>
+                <span class="n">inner_type</span> <span class="o">=</span> <span class="n">p_type</span><span class="o">.</span><span class="n">__args__</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">p</span><span class="p">:</span>
+                    <span class="n">MVal</span><span class="o">.</span><span class="n">_check_type</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">inner_type</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">parent_type</span> <span class="ow">is</span> <span class="nb">dict</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">p</span><span class="p">),</span> <span class="n">parent_type</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;expected type </span><span class="si">{}</span><span class="s2">, but received </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p_type</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">p</span><span class="p">)))</span>
+                <span class="n">key_type</span><span class="p">,</span> <span class="n">value_type</span> <span class="o">=</span> <span class="n">p_type</span><span class="o">.</span><span class="n">__args__</span>
+                <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">p</span><span class="p">:</span>
+                    <span class="n">MVal</span><span class="o">.</span><span class="n">_check_type</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">key_type</span><span class="p">)</span>
+                    <span class="n">MVal</span><span class="o">.</span><span class="n">_check_type</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">value_type</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">parent_type</span> <span class="ow">is</span> <span class="n">Union</span><span class="p">:</span>
+                <span class="n">allowed_types</span> <span class="o">=</span> <span class="n">p_type</span><span class="o">.</span><span class="n">__args__</span>
+                <span class="k">for</span> <span class="n">atype</span> <span class="ow">in</span> <span class="n">allowed_types</span><span class="p">:</span>
+                    <span class="n">atype_origin</span> <span class="o">=</span> <span class="n">atype</span><span class="o">.</span><span class="n">__origin__</span> <span class="k">if</span> <span class="p">(</span><span class="n">getmodule</span><span class="p">(</span><span class="n">atype</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;typing&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="n">atype</span>
+                    <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">p</span><span class="p">),</span> <span class="n">atype_origin</span><span class="p">):</span>
+                        <span class="n">MVal</span><span class="o">.</span><span class="n">_check_type</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">atype</span><span class="p">)</span>
+                        <span class="k">break</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">((</span><span class="s2">&quot;expected one of the following types </span><span class="si">{}</span><span class="s2">, &quot;</span> <span class="o">+</span>
+                                     <span class="s2">&quot;but received </span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">allowed_types</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">p</span><span class="p">)))</span>
+
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">getmodule</span><span class="p">(</span><span class="n">p_type</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">!=</span> <span class="s2">&quot;typing&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">p</span><span class="p">),</span> <span class="n">p_type</span><span class="p">):</span>  
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;expected type </span><span class="si">{}</span><span class="s2">, but received </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p_type</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">p</span><span class="p">)))</span>
+    
+    <span class="k">def</span> <span class="nf">_check_restrictions</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">p_restrictions</span><span class="p">,</span> <span class="n">p_type</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        p_restriction can be:</span>
+<span class="sd">          None &gt;&gt; no restriction</span>
+<span class="sd">          string &gt;&gt; specialized to represent upper and lower bounds</span>
+<span class="sd">          set &gt;&gt; contains allowed values</span>
+
+<span class="sd">          List[int] &gt;&gt; represents a list of codes for functions to run</span>
+<span class="sd">          int &gt;&gt; represents a single code for a function</span>
+
+<span class="sd">          function &gt;&gt; if it is callable p_restriction(p) is run result should be bool.  </span>
+<span class="sd">          True is good, False is bad</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># &quot;(0,100]&quot;, {1,2,3,4,5}, </span>
+
+        <span class="c1"># p_restriction is a callable function</span>
+        <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="n">p_restrictions</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">p_restrictions</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">((</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> doesn&#39;t meet the restrictions enforced by &quot;</span> <span class="o">+</span>
+                                  <span class="s2">&quot;function: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">p_restrictions</span><span class="p">))</span>
+
+        <span class="c1"># p_restriction is a bounds expression</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">p_restrictions</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
+            <span class="n">MVal</span><span class="o">.</span><span class="n">_validate_bounds_expression</span><span class="p">(</span><span class="n">p_type</span><span class="p">,</span> <span class="n">p_restrictions</span><span class="p">)</span>  <span class="c1"># ensure bounds expression is valid</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">MVal</span><span class="o">.</span><span class="n">_check_bounds</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">p_restrictions</span><span class="p">)</span>
+
+        <span class="c1"># p_restriction is a set of allowed values</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">p_restrictions</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">set</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">p</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">p_restrictions</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">((</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> doesn&#39;t meet the restrictions enforced by &quot;</span> <span class="o">+</span>
+                                  <span class="s2">&quot;set of allowed values: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">p_restrictions</span><span class="p">))</span>
+
+        <span class="c1"># p_restriction is None (i.e. no restrictions)</span>
+        <span class="k">elif</span> <span class="n">p_restrictions</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+        <span class="c1"># p_restriction is something not recognized</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">((</span><span class="s2">&quot;Bad p_restriction type.  Expected: None, a callable function that &quot;</span> <span class="o">+</span>
+                             <span class="s2">&quot;returns a bool representing whether the value meets the restrictions, &quot;</span> <span class="o">+</span>
+                             <span class="s2">&quot;a string representing a bounds expression, or a set of allowed values.  &quot;</span> <span class="o">+</span>
+                             <span class="s2">&quot;However, received type </span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">p_restrictions</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="n">p</span>
+
+    <span class="k">def</span> <span class="nf">_validate_bounds_expression</span><span class="p">(</span><span class="n">value_type</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">expression</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check bounds expression string to ensure that it is valid for evaluation.  In order to be a valid</span>
+<span class="sd">        expression the following must be True:</span>
+
+<span class="sd">            1) start must be &#39;(&#39; or &#39;[&#39;</span>
+<span class="sd">            2) end must be &#39;)&#39; or &#39;]&#39;</span>
+<span class="sd">            3) must contain only one &#39;,&#39;</span>
+<span class="sd">            4) value_type must be either float or int</span>
+<span class="sd">            4) values other than these must be interpretable as either ints or floats whichever value_type is</span>
+<span class="sd">            5) if upper or lower bound is open (i.e. to +/- infinity) then it should be preceded / followed by</span>
+<span class="sd">               a curly bracket</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">expression</span> <span class="o">=</span> <span class="n">expression</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="c1"># strip whitespace from start and end of strip</span>
+
+        <span class="c1"># 1) check that start is one of &#39;(&#39; or &#39;[&#39;</span>
+        <span class="k">if</span> <span class="n">expression</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;(&#39;</span> <span class="ow">and</span> <span class="n">expression</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;[&#39;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">((</span><span class="s2">&quot;Bad Expression: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">Should start with either &quot;</span> <span class="o">+</span>
+                              <span class="s2">&quot;&#39;(&#39; or &#39;[&#39;.  </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">expression</span><span class="p">))</span>
+
+        <span class="c1"># 2) check that end is one of &#39;)&#39; or &#39;]&#39;</span>
+        <span class="k">if</span> <span class="n">expression</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;)&#39;</span> <span class="ow">and</span> <span class="n">expression</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;]&#39;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Bad Expression: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">Should end with either &#39;)&#39; or &#39;]&#39;.  </span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">expression</span><span class="p">))</span>
+
+        <span class="c1"># 3) check that expression contains only one comma</span>
+        <span class="k">if</span> <span class="n">expression</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">((</span><span class="s2">&quot;Bad Expression: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">Should contain exactly one &#39;,&#39; seperating lower and &quot;</span> <span class="o">+</span>
+                              <span class="s2">&quot;upper bounds.  </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">expression</span><span class="p">))</span>
+
+        <span class="c1"># 4) check that value type is either float or int</span>
+        <span class="k">if</span> <span class="n">value_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">int</span> <span class="ow">and</span> <span class="n">value_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">float</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">((</span><span class="s2">&quot;Bad Expression: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">Only supported for primative types: &lt;int&gt; and &quot;</span> <span class="o">+</span>
+                              <span class="s2">&quot;&lt;float&gt;, not </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">expression</span><span class="p">,</span> <span class="n">value_type</span><span class="p">))</span>
+
+        <span class="c1"># 5) check that expression values are interpretable as value_type</span>
+        <span class="n">lower_val</span><span class="p">,</span> <span class="n">upper_val</span> <span class="o">=</span> <span class="n">expression</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">lower_val</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>  <span class="c1"># empty string represents an open bound</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">value_type</span><span class="p">(</span><span class="n">lower_val</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">((</span><span class="s2">&quot;Bad Expression: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">Lower bound value is not interpretable &quot;</span> <span class="o">+</span>
+                                  <span class="s2">&quot;as </span><span class="si">{}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">expression</span><span class="p">,</span> <span class="n">value_type</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">upper_val</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">value_type</span><span class="p">(</span><span class="n">upper_val</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">((</span><span class="s2">&quot;Bad Expression: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">Upper bound value is not interpretable &quot;</span> <span class="o">+</span>
+                                  <span class="s2">&quot;as </span><span class="si">{}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">expression</span><span class="p">,</span> <span class="n">value_type</span><span class="p">))</span>
+
+        <span class="c1"># 6) check that given lower_val / upper_val is &#39;&#39; then it must be preceded / followed by &#39;(&#39; / &#39;)&#39;</span>
+
+        <span class="k">if</span> <span class="n">lower_val</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span> <span class="ow">and</span> <span class="n">expression</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;(&#39;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">((</span><span class="s2">&quot;Bad Expression: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">Lower bound is open, therefore it must be preceded by &quot;</span> <span class="o">+</span>
+                              <span class="s2">&quot;&#39;(&#39; not &#39;[&#39;.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">expression</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">upper_val</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span> <span class="ow">and</span> <span class="n">expression</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;)&#39;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Bad Expression: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">Upper bound is open, therefore it must be followed by &quot;</span> <span class="o">+</span>
+                             <span class="s2">&quot;&#39;)&#39; not &#39;]&#39;.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">expression</span><span class="p">))</span>
+
+        <span class="c1"># if execution reaches this point all tests above are passing</span>
+        <span class="k">return</span> <span class="n">expression</span>
+
+    <span class="k">def</span> <span class="nf">_check_bounds</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">bounds</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Assumes that the value is the correct type and the bounds have already been validated.</span>
+
+<span class="sd">        Check to see that the variable value falls into the bounds represented by value_restrictions.</span>
+<span class="sd">        value_restrictions is a string of the form: &#39;(lower_bound, upper_bound]&#39;.  A curly bracket means</span>
+<span class="sd">        everything upto but not including and a square bracket is inclusive.  If a bound is omitted then it is</span>
+<span class="sd">        treated as open (to infinity) and must be preceded/followed by a curly bracket.  If the value satifies</span>
+<span class="sd">        the bounds expression then True is returned otherwise False is returned.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Value </span><span class="si">{}</span><span class="s2"> does not fall within the bounds: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">bounds</span><span class="p">))</span>
+
+        <span class="n">lower_bound</span><span class="p">,</span> <span class="n">upper_bound</span> <span class="o">=</span> <span class="n">bounds</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>  <span class="c1"># should always only be one &#39;,&#39;</span>
+        <span class="n">lower_bound</span><span class="p">,</span> <span class="n">upper_bound</span> <span class="o">=</span> <span class="n">lower_bound</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">upper_bound</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="c1"># strip away any whitespace</span>
+
+        <span class="n">lower_op</span> <span class="o">=</span> <span class="n">operator</span><span class="o">.</span><span class="n">gt</span> <span class="k">if</span> <span class="n">lower_bound</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;(&#39;</span> <span class="k">else</span> <span class="n">operator</span><span class="o">.</span><span class="n">ge</span>
+        <span class="n">upper_op</span> <span class="o">=</span> <span class="n">operator</span><span class="o">.</span><span class="n">lt</span> <span class="k">if</span> <span class="n">upper_bound</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;)&#39;</span> <span class="k">else</span> <span class="n">operator</span><span class="o">.</span><span class="n">le</span>
+
+        <span class="n">lower_val</span> <span class="o">=</span> <span class="n">lower_bound</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>  <span class="c1"># will be an empty string if no value supplied (i.e open bound)</span>
+        <span class="n">upper_val</span> <span class="o">=</span> <span class="n">upper_bound</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="n">value_type</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">lower_val</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+            <span class="c1"># lower_op is going to be operator.ge or operator.gt</span>
+            <span class="n">lower_val</span> <span class="o">=</span> <span class="n">value_type</span><span class="p">(</span><span class="n">lower_val</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">lower_op</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">lower_val</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Value </span><span class="si">{}</span><span class="s2"> does not fall within the bounds: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">bounds</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">upper_val</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+            <span class="c1"># upper_op is going to be operator.le or operatory.lt</span>
+            <span class="n">upper_val</span> <span class="o">=</span> <span class="n">value_type</span><span class="p">(</span><span class="n">upper_val</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">upper_op</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">upper_val</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Value </span><span class="si">{}</span><span class="s2"> does not fall within the bounds: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">bounds</span><span class="p">))</span>
+
+        <span class="c1"># if execution reaches this point value satisfies bounds expression</span>
+        <span class="k">return</span> <span class="n">value</span>
+
+    <span class="k">def</span> <span class="nf">validate_param</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">p_type</span><span class="p">,</span> <span class="n">p_name</span><span class="p">,</span> <span class="n">p_restrictions</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># 1) check type</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">MVal</span><span class="o">.</span><span class="n">_check_type</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">p_type</span><span class="p">)</span> <span class="c1"># recursive function, therefore catch error here for better error msg</span>
+        <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> expected type </span><span class="si">{}</span><span class="s2">, but received </span><span class="si">{}</span><span class="s2"> of type </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p_name</span><span class="p">,</span> <span class="n">p_type</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> 
+                                                                                     <span class="nb">type</span><span class="p">(</span><span class="n">p</span><span class="p">)))</span> <span class="kn">from</span> <span class="nn">error</span>
+
+        <span class="c1"># 2) check restriction</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">MVal</span><span class="o">.</span><span class="n">_check_restrictions</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">p_restrictions</span><span class="p">,</span> <span class="n">p_type</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">p</span>
 </pre></div>
 
     </div>
@@ -148,51 +331,19 @@ This</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Common-Restrictions">Common Restrictions<a class="anchor-link" href="#Common-Restrictions"> </a></h2>
-</div>
-</div>
-</div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># os.path.isfile(p)</span>
-<span class="c1"># os.path.isdir(p)</span>
-<span class="c1"># os.path.</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>is a file
-  -&gt; parent exists
-  -&gt; exists
-  -&gt; doesn't exists
-  -&gt;</p>
-<p>is a directory
-  -&gt; exists
-  -&gt; doesn't exist
-  -&gt; contains a file with specific extension
-  -&gt; parent exists
-  -&gt;</p>
-<p>is a tuple with values</p>
-<p>base values</p>
-<p>value(s) have no restrictions = None
-value(s) fall within a range = '(2,100]'
-value(s) fall within a set = {}</p>
-<p>value(s) are directories (with above options)
-value(s) are files (with above options)</p>
-<p>more complicated restrictions can use a function
-value(s) evaluate function to True</p>
+<h2 id="TODO">TODO<a class="anchor-link" href="#TODO"> </a></h2><ol>
+<li>Add concise typing hints to functions</li>
+<li>Implement more builtin restriction checks (i.e. when certain codes are sent it preforms
+corresponding check).  May want to turn method into classmethods if this is done</li>
+<li>Add support for regular expressions and come up with way to differentiate them from bounds expression</li>
+<li>Look into making custom exceptions</li>
+<li>When dealing with nested structure come up with way to choose if restrictions apply to whole thing or at what
+level to apply.  i.e. add a restriction_level parameter</li>
+<li>Wrap everything up into a class (and import validate_param in the <code>__init__.py</code> file)
+ a. make functions other than validate_params private</li>
+<li>Beef up the documentation</li>
+<li>Add a parameter allow_None and if the value is None then it is ok and circumvents the checks</li>
+</ol>
 
 </div>
 </div>
