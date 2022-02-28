@@ -1,4 +1,3 @@
-
 # mval
 > We all hate errors and debugging!  Save time debugging by using this simple package for validating your inputs, parameters, etc.
 
