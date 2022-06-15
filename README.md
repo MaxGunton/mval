@@ -1,4 +1,3 @@
-
 # mval
 > We all hate errors and debugging!  Save time debugging by using this simple package for validating your inputs, parameters, etc.
 
@@ -11,7 +10,7 @@ Use the validate_param function to speed up code development.
 
 ## How to use
 
-```python
+```
 from mval import validate_param
 from typing import Tuple
 
@@ -30,7 +29,7 @@ def rgb_restr(x):
     return True
 ```
 
-```python
+```
 validate_param(good_color, Tuple[int, int, int], "color", p_restrictions=rgb_restr)
 ```
 
@@ -41,7 +40,7 @@ validate_param(good_color, Tuple[int, int, int], "color", p_restrictions=rgb_res
 
 
 
-```python
+```
 try:
     validate_param(bad_type_in_color, Tuple[int, int, int], "color", p_restrictions=rgb_restr)
 except TypeError as error:
@@ -49,9 +48,9 @@ except TypeError as error:
 ```
 
     color expected type typing.Tuple[int, int, int], but received (28, 'hello', 34) of type <class 'tuple'>
+    
 
-
-```python
+```
 try:
     validate_param(bad_value_in_color, Tuple[int, int, int], "color", p_restrictions=rgb_restr)
 except ValueError as error:
@@ -59,9 +58,9 @@ except ValueError as error:
 ```
 
     (28738, 75, 34) doesn't meet the restrictions enforced by function: <function rgb_restr at 0x7f79d72a5dd0>
+    
 
-
-```python
+```
 validate_param(good_color2, Tuple[int, int, int], "color", p_restrictions=rgb_restr)
 ```
 
