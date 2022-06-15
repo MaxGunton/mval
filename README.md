@@ -1,9 +1,12 @@
 # mval
-> We all hate errors and debugging!  Save time debugging by ***FAILING FAST*** and having ***SINGLE SOURCE*** using this 
+> Simple package for validating your input parameters.
 
 
-`core.validate_param`: check user passed variables to ensure they meet set of requirements. (FAST FAIL idealogy)
-`core.documented_by`: copy docstring a function, intended for wrapper functions and decorators. (SINGLE SOURCE idealogy)
+We all hate errors and debugging, save time debugging by FAILING FAST and having SINGLE SOURCES using the following functions:
+
+[validate_param](core.html/#validate_param): check user passed variables to ensure they meet set of requirements. (FAST FAIL idealogy)
+
+[documented_by](core.html/#documented_by): copy docstring a function, intended for wrapper functions and decorators. (SINGLE SOURCE idealogy)
 
 ## Install
 
@@ -11,12 +14,11 @@
 
 ## How to use
 
-Assume we want to get some user input, and it needs to be a color represented by a tuple of 3 integers ranging from 0 to 255 inclusive.  We could write a function to do this that raises an exception if the value is bad, but it's been done for you!
-
 **For example:**
 
+Assume we want to get some user input, and it needs to be a color represented by a tuple of 3 integers ranging from 0 to 255 inclusive.  We could write a function to do this that raises an exception if the value is bad, but it's been done for you!
+
 ```python
-from mval import validate_param  # validation function
 from typing import Tuple, Union, List  # for dictating nested types
 
 # below are a series of possible user inputs some good and some bad
@@ -50,7 +52,7 @@ except TypeError as error:
 ```
 
     color expected type typing.Tuple[int, int, int], but received (28, 'hello', 34) of type <class 'tuple'>
-    
+
 
 ```python
 # Again this one should fail, but because a value in the Tuple is out of range.
@@ -60,8 +62,8 @@ except ValueError as error:
     print(error)
 ```
 
-    (28738, 75, 34) doesn't meet the restrictions enforced by function: <function <lambda> at 0x000001CE7F36D620>
-    
+    (28738, 75, 34) doesn't meet the restrictions enforced by function: <function <lambda> at 0x000002CF8B4AA620>
+
 
 ```python
 # This one should pass and return the original value even though it had many leading 0's
