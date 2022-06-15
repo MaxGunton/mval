@@ -219,14 +219,16 @@ def _check_bounds(value: Union[int, float], bounds: str) -> Union[int, float]:
 # Cell
 def validate_param(p, p_type, p_name, p_restrictions=None):
     """
-    This function check parameter `p` to ensure it is of type `p_type`.  `p_name` is the variable name of `p` and is strictly
-    used in error messages.  `p_restrictions` are the restrictions that the `p` must meet.  If the parameter `p` is the
-    correct type and fits the restrictions then it is returned otherwise an exception is raised.
+    This function check parameter `p` to ensure it is of type `p_type`.  `p_name` is the variable
+    name of `p` and is strictly used in error messages.  `p_restrictions` are the restrictions that
+    the `p` must meet.  If the parameter `p` is the correct type and fits the restrictions then it
+    is returned otherwise an exception is raised.
 
-    Parameters
-    ==========
-    `p_type`: can be virtually any type with support for primative types and objects. More complex nested structures can be
-    expressed by importing the python typing module and using the typing notation for example:
+    **Parameters**
+
+    `p_type`: can be virtually any type with support for primative types and objects. More complex
+    nested structures can be expressed by importing the python typing module and using the typing
+    notation for example:
     (List[str] represents a list of strings).
 
     `p_name`: should be a `str` matching the name of the variable.
@@ -236,9 +238,9 @@ def validate_param(p, p_type, p_name, p_restrictions=None):
           - set of allowed values
               ex. {1, 33, 44}
           - bounds expression (for int and float values only)
-              ex. [1,)   means 1 ≤ p < ∞
-                  [0,10] means 0 ≤ p ≤ 10
-                  (,10)  means -∞ < p < 10
+              ex. [1,)   means 1 <= p < infinity
+                  [0,10] means 0 <= p <= 10
+                  (,10)  means -infinity < p < 10
           - function returning True if satisfies restriction and False otherwise
               ex.
                   os.path.isfile
@@ -247,12 +249,12 @@ def validate_param(p, p_type, p_name, p_restrictions=None):
     The bounds restriction and set of allowed values are intended to make readability easier for the user, but ***ANY***
     restriction can be represented as a function and this allows for more complex restrictions to be represented.
 
-    Returns
-    =======
+    **Return**
+
     If parameter is valid than it is returned unchanged, otherwise an exception is raised.
 
-    Limitations
-    ===========
+    **Limitations**
+
     - Only supports the following from typing module: List, Tuple, Dict, and Union
     - Only supports Tuple definitions of fixed size (i.e. Tuple[int, float, str] and not Tuple[int, ...])
     - Restrictions are applied to entire value i.e. not nested values. For example:
@@ -266,10 +268,10 @@ def validate_param(p, p_type, p_name, p_restrictions=None):
         ***Instead Use:*** ```validate_param(p, Tuple[str, str, str], "p", lambda x: all([True if i in {"A", "B", "C"} else
         False for i in x]))```
 
-    Examples
-    ========
-    ***Example 1:***
+    **Examples**
+
     ```python
+    # example 1
     from typing import Union, Tuple
 
     p = validate_param(p, Union[int, float, Tuple[str, str, pd.DataFrame]], "p", None)
@@ -277,9 +279,8 @@ def validate_param(p, p_type, p_name, p_restrictions=None):
     This indicates that the type must be an int, float or 3 element tuple with the first two values being strings and the
     last a pandas DataFrame.
 
-    ***Example 2:***
     ```python
-
+    # example 2
     p = validate_param(p, str, "p", lambda x: os.path.isfile(x) and x.endswith(".wav"))
     ```
     This indicates that the p must be a str representing a file ending in .wav.  Also note the use of lambda expressions as
@@ -301,19 +302,22 @@ def documented_by(original_doc_func):
     """
     This decorator function allows functions to copy docstrings from other functions.
 
-    Parameters
-    ==========
+    **Parameters**
+
     `original_doc_func`: function from which to copy docstring
 
-    Returns
-    =======
-    A function that wraps the a function with the doc string from another.
+    **Return**
 
-    Example
-    =======
+    `<class 'function'>`: that copies the doc string of one function to another.
+
+    **Examples**
+
+    ```python
+    # example 1
     @documented_by(original_doc_string)
     def has_copied_docstring():
         pass
+    ```
 
     """
     def wrapper(copied_doc_func):
