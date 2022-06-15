@@ -24,8 +24,7 @@ def _check_type(p, p_type):
     if (getmodule(p_type).__name__ == "typing") and (p_type is not TypeVar):
 
         parent_type = p_type.__origin__
-
-        if parent_type is tuple:
+        if parent_type is Tuple:
             if not issubclass(type(p), parent_type):
                 raise TypeError("expected type {}, but received {}".format(p_type, type(p)))
             inner_types = p_type.__args__
@@ -35,14 +34,14 @@ def _check_type(p, p_type):
             for idx, child in enumerate(p):
                 _check_type(child, inner_types[idx])
 
-        if parent_type is list:
+        if parent_type is List:
             if not issubclass(type(p), parent_type):
                 raise TypeError("expected type {}, but received {}".format(p_type, type(p)))
             inner_type = p_type.__args__[0]
             for child in p:
                 _check_type(child, inner_type)
 
-        if parent_type is dict:
+        if parent_type is Dict:
             if not issubclass(type(p), parent_type):
                 raise TypeError("expected type {}, but received {}".format(p_type, type(p)))
             key_type, value_type = p_type.__args__

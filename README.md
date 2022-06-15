@@ -1,8 +1,9 @@
 # mval
-> We all hate errors and debugging!  Save time debugging by using this simple package for validating your inputs, parameters, etc.
+> We all hate errors and debugging!  Save time debugging by ***FAILING FAST*** and having ***SINGLE SOURCE*** using this 
 
 
-Use the validate_param function to speed up code development.  
+`core.validate_param`: check user passed variables to ensure they meet set of requirements. (FAST FAIL idealogy)
+`core.documented_by`: copy docstring a function, intended for wrapper functions and decorators. (SINGLE SOURCE idealogy)
 
 ## Install
 
@@ -10,27 +11,27 @@ Use the validate_param function to speed up code development.
 
 ## How to use
 
-```
-from mval import validate_param
-from typing import Tuple
+Assume we want to get some user input, and it needs to be a color represented by a tuple of 3 integers ranging from 0 to 255 inclusive.  We could write a function to do this that raises an exception if the value is bad, but it's been done for you!
 
+**For example:**
+
+```python
+from mval import validate_param  # validation function
+from typing import Tuple, Union, List  # for dictating nested types
+
+# below are a series of possible user inputs some good and some bad
 good_color = (123, 234, 25)
 bad_type_in_color = (28, "hello", 34)
 bad_value_in_color = (28738, 75, 34)
 good_color2 = (00000000, 43, 23)
 
-def rgb_restr(x):
-    try:
-        validate_param(x[0], int, "color[0]", "[0,255]")
-        validate_param(x[1], int, "color[0]", "[0,255]")
-        validate_param(x[2], int, "color[0]", "[0,255]")
-    except ValueError as error:
-        return False
-    return True
+# lets define a functional restriction that returns True if all iteratible values are [0,255] and false otherwise
+color_restriction = lambda x: all([True if 0<=i<=255 else False for i in x])
 ```
 
-```
-validate_param(good_color, Tuple[int, int, int], "color", p_restrictions=rgb_restr)
+```python
+# This one should pass and return the original value
+validate_param(good_color, Tuple[int, int, int], "color", color_restriction)
 ```
 
 
@@ -40,9 +41,10 @@ validate_param(good_color, Tuple[int, int, int], "color", p_restrictions=rgb_res
 
 
 
-```
+```python
+# This one should fail because there is a bad type in the parameter.  This will raise an exception that we can understand
 try:
-    validate_param(bad_type_in_color, Tuple[int, int, int], "color", p_restrictions=rgb_restr)
+    validate_param(bad_type_in_color, Tuple[int, int, int], "color", color_restriction)
 except TypeError as error:
     print(error)
 ```
@@ -50,18 +52,20 @@ except TypeError as error:
     color expected type typing.Tuple[int, int, int], but received (28, 'hello', 34) of type <class 'tuple'>
     
 
-```
+```python
+# Again this one should fail, but because a value in the Tuple is out of range.
 try:
-    validate_param(bad_value_in_color, Tuple[int, int, int], "color", p_restrictions=rgb_restr)
+    validate_param(bad_value_in_color, Tuple[int, int, int], "color", color_restriction)
 except ValueError as error:
     print(error)
 ```
 
-    (28738, 75, 34) doesn't meet the restrictions enforced by function: <function rgb_restr at 0x7f79d72a5dd0>
+    (28738, 75, 34) doesn't meet the restrictions enforced by function: <function <lambda> at 0x000001CE7F36D620>
     
 
-```
-validate_param(good_color2, Tuple[int, int, int], "color", p_restrictions=rgb_restr)
+```python
+# This one should pass and return the original value even though it had many leading 0's
+validate_param(good_color2, Tuple[int, int, int], "color", color_restriction)
 ```
 
 
@@ -70,11 +74,3 @@ validate_param(good_color2, Tuple[int, int, int], "color", p_restrictions=rgb_re
     (0, 43, 23)
 
 
-
-## TODO
-
-1. Add write up on bounds expression  
-    `( means greater than` ***AND*** `[ means greater than or equal to`
-    
-    `) means less than` ***AND***  `] means less than or equal to`
-2. Add write up on how to define functions
