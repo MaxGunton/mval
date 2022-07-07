@@ -186,13 +186,95 @@ the p_restriction.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="documented_by" class="doc_header"><code>documented_by</code><a href="https://github.com/MaxGunton/mval/tree/main/mval/core.py#L300" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>documented_by</code>(<strong><code>original_doc_func</code></strong>)</p>
+<h4 id="validate_and_load" class="doc_header"><code>validate_and_load</code><a href="https://github.com/MaxGunton/mval/tree/main/mval/core.py#L300" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>validate_and_load</code>(<strong><code>params</code></strong>, <strong><code>defs</code></strong>)</p>
 </blockquote>
-<p>This decorator function allows functions to copy docstrings from other functions.</p>
+<p>Check a set of parameters stored in the <code>param</code> dictionary to see if they meet the necessary requirements of
+<code>definitions</code>.  If they do, they are loaded and returned in the order supplied within dictionary,
+otherwise raise an exception.</p>
 <p><strong>Parameters</strong></p>
-<p><code>original_doc_func</code>: function from which to copy docstring</p>
-<p><strong>Return</strong></p>
-<p><code>&lt;class 'function'&gt;</code>: that copies the doc string of one function to another.</p>
+<ul>
+<li><code>param</code>: <em>Dict[str, Any]</em>: Keys of params must be present in <code>mtemplate.definitions.PARAMS</code> and identify which
+<pre><code>                       parameter it is, and its value is the value we are validating and loading.</code></pre>
+</li>
+<li><code>defs</code>: <em>Dict[str,Tuple[type, function, function]]</em>: contains the type, restrictions function, and loading function
+<pre><code>                                                 for each parameter
+</code></pre>
+<strong>Returns</strong></li>
+<li><em>tuple</em>: containing the validated and loaded parameters (in the same order as the params dictionary).</li>
+</ul>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h2 id="ParameterNotDefinedError" class="doc_header"><code>class</code> <code>ParameterNotDefinedError</code><a href="https://github.com/MaxGunton/mval/tree/main/mval/core.py#L328" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ParameterNotDefinedError</code>(<strong><code>value</code></strong>=<em><code>None</code></em>) :: <code>Exception</code></p>
+</blockquote>
+<p>This exception is raised when a p_name is not a key in the <code>defs</code> dictionary.</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="documented_by" class="doc_header"><code>documented_by</code><a href="https://github.com/MaxGunton/mval/tree/main/mval/core.py#L339" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>documented_by</code>(<strong><code>original_doc_func</code></strong>)</p>
+</blockquote>
+<p>This decorator function allows functions to copy docstrings from other functions.  And appends any docstring it has to the
+end.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li><code>original_doc_func</code>: function from which to copy docstring</li>
+</ul>
+<p><strong>Returns</strong></p>
+<ul>
+<li><code>&lt;class 'function'&gt;</code>: that copies the doc string of one function to another.</li>
+</ul>
 <p><strong>Examples</strong></p>
 <div class="highlight"><pre><span></span><span class="c1"># example 1</span>
 <span class="nd">@documented_by</span><span class="p">(</span><span class="n">original_doc_string</span><span class="p">)</span>

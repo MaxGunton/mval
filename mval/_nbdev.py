@@ -3,6 +3,8 @@
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
 index = {"validate_param": "00_core.ipynb",
+         "validate_and_load": "00_core.ipynb",
+         "ParameterNotDefinedError": "00_core.ipynb",
          "documented_by": "00_core.ipynb"}
 
 modules = ["core.py"]
